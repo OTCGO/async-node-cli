@@ -11,13 +11,15 @@ import * as log4js from 'log4js'
 import * as config from 'config'
 import * as async from 'async'
 import { block } from './lib'
-import { Block } from './models'
+import { Block,Address,Asset } from './models'
 import { Transaction } from './models'
+import * as moment from 'moment'
 
 
 log4js.configure(config.get('log'))
 
-let workerCount = 1000
+let workerCount = config.get('workerCount')
+
 
 
 
@@ -37,6 +39,19 @@ let queue = async.queue(function (task, callback) {
                 }
                 // console.log('tx2',tx)
                 new Transaction(tx).save().catch(() => { })
+
+
+                tx.vout.forEach(async (d) => {
+                    // saveAsset
+                    const newAsset = { assetId: d.asset, createdAt: moment.unix(block.time) }
+                    new Asset(newAsset).save().catch(() => { })
+
+      
+                    // // save address
+                    const newAddress = { address: d.address, createdAt: moment.unix(block.time) }
+                    new Address(newAddress).save().catch(() => { })
+
+                  })
             });
 
             callback()

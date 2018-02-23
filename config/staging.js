@@ -3,10 +3,9 @@ module.exports = {
       url: 'mongodb://127.0.0.1:27017/async-test-node',
       options: {
       },
-      debug: true
+      debug: false
     },
-    rpc: 'http://future.otcgo.cn:5000/testnet/node',
-    workerCount: 1,
+    rpc: 'http://127.0.0.1:5000/testnet/node',
     log: {
       appenders: { neo: { type: 'file', filename: 'neo.log' } },
       categories: { default: { appenders: ['neo'], level: 'info' } }
