@@ -6,6 +6,7 @@ module.exports = {
       debug: false
     },
     rpc: 'http://127.0.0.1:5000/testnet/node',
+    workerCount: 1000,
     log: {
       appenders: { neo: { type: 'file', filename: 'neo.log' } },
       categories: { default: { appenders: ['neo'], level: 'info' } }
